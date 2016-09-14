@@ -189,12 +189,17 @@ def parse_auth(entries, raise_on_error=False):
             'Found entry (registry={0}, username={1})'
             .format(repr(registry), repr(username))
         )
-        conf[registry] = {
-            'username': username,
-            'password': password,
-            'email': entry.get('email'),
-            'serveraddress': registry,
-        }
+        if 'identitytoken' in entry:
+            conf[registry] = {
+                'IdentityToken': entry['identitytoken']
+            }
+        else:
+            conf[registry] = {
+                'username': username,
+                'password': password,
+                'email': entry.get('email'),
+                'serveraddress': registry,
+            }
     return conf
 
 
